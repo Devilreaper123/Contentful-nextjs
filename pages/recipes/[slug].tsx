@@ -1,18 +1,24 @@
 import { createClient } from "contentful";
 import Head from "next/head";
+import { Entry } from "contentful";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const client = createClient({
-  space: process.env.CONTENTFULL_SPACE_ID,
-  accessToken: process.env.CONTENTFULL_ACCESS_KEY,
+  space: process.env.CONTENTFULL_SPACE_ID as string,
+  accessToken: process.env.CONTENTFULL_ACCESS_KEY as string,
 });
-
+interface RecipeFields {
+  slug: string;
+}
+interface RecipeEntry extends Entry<RecipeFields> {
+  // define other fields here
+}
 export const getStaticPaths = async () => {
-  const res = await client.getEntries({
+  const res = await client.getEntries<RecipeFields>({
     content_type: "recipe",
   });
-  const paths = res.items.map((item) => {
+  const paths = res.items.map((item: RecipeEntry) => {
     return {
       params: {
         slug: item.fields.slug,

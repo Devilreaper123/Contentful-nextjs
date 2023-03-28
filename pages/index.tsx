@@ -4,8 +4,8 @@ import RecipeCard from "../components/RecipeCard";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 export async function getStaticProps() {
   const client = createClient({
-    space: process.env.CONTENTFULL_SPACE_ID,
-    accessToken: process.env.CONTENTFULL_ACCESS_KEY,
+    space: process.env.CONTENTFULL_SPACE_ID as string,
+    accessToken: process.env.CONTENTFULL_ACCESS_KEY as string,
   });
 
   const res = await client.getEntries({
